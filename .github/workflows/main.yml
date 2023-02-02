@@ -32,7 +32,7 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@releases/v3
       env:
-        ACCESS_TOKEN: ${{ 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 }}
+        ACCESS_TOKEN: ${{ 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 }}
       with:
         BRANCH: gh-pages
         FOLDER: public
