@@ -1,95 +1,85 @@
-// import necessary modules
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import { Route, Link } from "react-router-dom";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { Link } from 'react-router-dom';
 
-// styles for Material UI components
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
-  drawer: {
-    width: 240,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: 240
-  },
-  content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
   },
   menuButton: {
-    marginRight: theme.spacing(2)
-  }
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  list: {
+    width: 250,
+  },
 }));
 
-// component for the home page
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-    <p>Welcome to the home page.</p>
-  </div>
-);
-
-// component for the about page
-const About = () => (
-  <div>
-    <h2>About</h2>
-    <p>Learn about the person behind this website.</p>
-  </div>
-);
-
-// component for the services page
-const Services = () => (
-  <div>
-    <h2>Services</h2>
-    <p>Discover the services offered by this website.</p>
-  </div>
-);
-
-// component for the portfolio page
-const Portfolio = () => (
-  <div>
-    <h2>Portfolio</h2>
-    <p>Check out the portfolio of this website.</p>
-  </div>
-);
-
-// component for the contact page
-const Contact = () => (
-  <div>
-    <h2>Contact</h2>
-    <p>Get in touch with this website.</p>
-  </div>
-);
-
-// main component for the portfolio website
-const PortfolioSite = () => {
+const NavBar = () => {
   const classes = useStyles();
-  const [isOpen, setOpen] = useState(false);
+  const [state, setState] = React.useState({
+    left: false,
+  });
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setState({ ...state, left: open });
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const sideList = () => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        <ListItem button component={Link} to="/">
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button component={Link} to="/about">
+          <ListItemText primary="About" />
+        </ListItem>
+        <ListItem button component={Link} to="/services">
+          <ListItemText primary="Services" />
+        </ListItem>
+        <ListItem button component={Link} to="/skills">
+          <ListItemText primary="Skills" />
+        </ListItem>
+        <ListItem button component={Link} to="/portfolio">
+          <ListItemText primary="Portfolio" />
+        </ListItem>
+        <ListItem button component={Link} to="/contact">
+          <ListItemText primary="Contact Us" />
+        </ListItem>
+      </List>
+    </div>
+  );
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="static">
         <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+         
